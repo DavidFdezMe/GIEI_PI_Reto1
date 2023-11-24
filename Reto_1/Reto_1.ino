@@ -6,6 +6,29 @@
 #define echoPin 11
 #define servoPin 12
 
+#define LED 3
+
+Button boton1=Button(5);
+Button boton2=Button(4);
+Button boton3=Button(6);
+
+unsigned long t1;
+
+void botones(){ 
+  if (boton1.pressed()){  //Encendido
+    digitalWrite(LED,HIGH);
+  } 
+  if (boton2.pressed()){ //Apagado
+    digitalWrite(LED,LOW);
+  }
+  if(boton3.pressed()) {   
+    if(millis()>= t1+250){             
+  		digitalWrite(LED, !digitalRead(LED));
+    	t1+=250;
+    }
+  }
+}
+
 long duracion;
 int distancia;
 
@@ -17,6 +40,11 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   myServo.attach(servoPin);
+
+  boton1.begin();
+  boton2.begin();
+  boton3.begin();
+  pinMode(LED,OUTPUT);
 }
 
 int calcularDistancia(){ 
@@ -54,6 +82,5 @@ void radar(){
 }
 
 void loop() {
-
- 
+ botones();
 }
